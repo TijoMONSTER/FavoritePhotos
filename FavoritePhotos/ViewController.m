@@ -8,7 +8,9 @@
 
 #import "ViewController.h"
 
-@interface ViewController ()
+#define urlToGetFlickrPhotos @"https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ac464ee6ed976f4f7c0e48e3152a24ad&format=json&nojsoncallback=1&has_geo=1&per_page=10&extras=url_c,geo&tag_mode=all&tags="
+
+@interface ViewController () <UISearchBarDelegate>
 
 @end
 
@@ -17,13 +19,47 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[searchBar resignFirstResponder];
+
+//	if (searchBar.text.length > 0) {
+		[self loadFlickrPhotosWithKeywords:searchBar.text];
+//	}
+}
+
+- (void)loadFlickrPhotosWithKeywords:(NSString *)keywords
+{
+	// take spaces out
+	keywords = [keywords stringByReplacingOccurrencesOfString:@" " withString:@","];
+
+	NSString *formedURLString = [NSString stringWithFormat:@"%@%@", urlToGetFlickrPhotos, keywords];
+	NSURL *url = [NSURL URLWithString: formedURLString];
+	NSURLRequest *request = [NSURLRequest requestWithURL:url];
+	[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+
+		if (!connectionError) {
+			NSError *error;
+			NSDictionary *decodedJSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+			NSLog(@"%@", decodedJSON);
+		} else {
+			[self showAlertViewWithTitle:@"Connection error" message:connectionError.localizedDescription buttonText:@"OK"];
+		}
+	}];
+}
+
+#pragma mark - Helper methods
+
+- (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message buttonText:(NSString *)buttonText
+{
+	UIAlertView *alertView = [UIAlertView new];
+	alertView.title = title;
+	alertView.message = message;
+	[alertView addButtonWithTitle:buttonText];
+	[alertView show];
+	NSLog(@"%@", message);
 }
 
 @end
