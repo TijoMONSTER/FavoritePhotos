@@ -7,7 +7,6 @@
 //
 
 #import "SearchViewController.h"
-#import "Photo.h"
 #import "PhotoCell.h"
 #import "FavoritesViewController.h"
 
@@ -149,6 +148,13 @@
 	NSIndexPath *indexPath = self.collectionView.indexPathsForSelectedItems[0];
 	Photo *photo = self.searchedPhotos[indexPath.row];
 	return [photo.imageURL relativeString];
+}
+
+- (Photo *)selectedFavoritePhoto
+{
+	NSIndexPath *indexPath = self.collectionView.indexPathsForSelectedItems[0];
+	Photo *photo = self.searchedPhotos[indexPath.row];
+	return photo;
 }
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message buttonText:(NSString *)buttonText

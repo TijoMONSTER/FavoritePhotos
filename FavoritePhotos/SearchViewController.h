@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Photo.h"
 
 @interface SearchViewController : UIViewController
 
 - (NSString *)selectedFavoritePhotoURLString;
+- (Photo *)selectedFavoritePhoto;
+
 
 @end

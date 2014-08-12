@@ -12,13 +12,11 @@
 
 @interface FavoritesViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property NSMutableArray *favoritePhotos;
-@property NSMutableDictionary *cachedImages;
+@property NSMutableArray *favoritePhotosIds;
 
 @end
 
 @implementation FavoritesViewController
-
 
 - (void)viewDidLoad
 {
@@ -32,9 +30,8 @@
 	self.navigationController.navigationBarHidden = NO;
 	[self load];
 
-	self.cachedImages = [NSMutableDictionary new];
-	if (!self.favoritePhotos) {
-		self.favoritePhotos = [NSMutableArray new];
+	if (!self.favoritePhotosIds) {
+		self.favoritePhotosIds = [NSMutableArray new];
 
 		UIAlertView *alertView = [UIAlertView new];
 		alertView.message = @"No favorites, tap the search button to finde some.";
@@ -47,45 +44,16 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-	return self.favoritePhotos.count;
+	return self.favoritePhotosIds.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 	PhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellID" forIndexPath:indexPath];
 
-	NSString *imageURLString = self.favoritePhotos[indexPath.row];
-
-	if (!self.cachedImages[imageURLString]) {
-		// download image
-		NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:imageURLString]];
-		[NSURLConnection sendAsynchronousRequest:urlRequest
-										   queue:[NSOperationQueue mainQueue]
-							   completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-
-								   if (!connectionError) {
-									   self.cachedImages[imageURLString] = [UIImage imageWithData:data];
-									   [cell setImage:self.cachedImages[imageURLString]];
-									   [cell hideActivityIndicator];
-								   }
-								   // connection error
-								   else {
-									   if ([connectionError.localizedDescription isEqualToString: @"bad URL"]) {
-										   self.cachedImages[imageURLString] = [UIImage imageNamed:@"photo_placeholder"];
-										   [cell setImage:self.cachedImages[imageURLString]];
-										   [cell hideActivityIndicator];
-									   }
-
-									   UIAlertView *alertView = [UIAlertView new];
-									   alertView.title = @"Connection error";
-									   alertView.message = connectionError.localizedDescription;
-									   [alertView addButtonWithTitle:@"OK"];
-									   [alertView show];
-								   }
-							   }];
-	} else {
-		[cell setImage:self.cachedImages[imageURLString]];
-	}
+	NSString *photoID = self.favoritePhotosIds[indexPath.row];
+	UIImage *loadedImage = [self loadPhotoWithId:photoID];
+	[cell setImage:loadedImage];
 
 	return cell;
 }
@@ -104,9 +72,10 @@
 {
 	SearchViewController *searchVC = (SearchViewController *)segue.sourceViewController;
 
-	NSString *selectedFavoritePhotoURLString = [searchVC selectedFavoritePhotoURLString];
-	[self.favoritePhotos addObject:selectedFavoritePhotoURLString];
-	[self save];
+	Photo *selectedFavoritePhoto = [searchVC selectedFavoritePhoto];
+	[self.favoritePhotosIds addObject:selectedFavoritePhoto.photoId];
+	[self savePhoto:selectedFavoritePhoto];
+
 	NSIndexPath *firstItemIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 	[self.collectionView scrollToItemAtIndexPath:firstItemIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 	[self.collectionView reloadData];
@@ -121,17 +90,27 @@
 	return directories.firstObject;
 }
 
-- (void)save
+- (void)savePhoto:(Photo *)photo
 {
-	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
+	NSURL *imageURL = [[self documentsDirectory] URLByAppendingPathComponent:photo.photoId];
+	NSData *data = UIImagePNGRepresentation(photo.image);
+	[data writeToURL:imageURL atomically:YES];
 
-	NSLog(@"%d success!",[self.favoritePhotos writeToURL:plist atomically:YES]);
+	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
+	NSLog(@"%d success!",[self.favoritePhotosIds writeToURL:plist atomically:YES]);
+}
+
+- (UIImage *)loadPhotoWithId:(NSString *)photoId
+{
+	NSURL *imageURL = [[self documentsDirectory] URLByAppendingPathComponent:photoId];
+	NSData *data = [NSData dataWithContentsOfURL:imageURL];
+	return [UIImage imageWithData:data];
 }
 
 - (void)load
 {
 	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
-	self.favoritePhotos = [NSMutableArray arrayWithContentsOfURL:plist];
+	self.favoritePhotosIds = [NSMutableArray arrayWithContentsOfURL:plist];
 }
 
 
