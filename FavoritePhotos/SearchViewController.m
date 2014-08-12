@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property NSMutableArray *searchedPhotos;
+@property NSMutableArray *favoritePhotos;
 
 @end
 
@@ -29,6 +30,12 @@
 	self.searchedPhotos = [NSMutableArray new];
 
 	self.navigationController.navigationBarHidden = YES;
+
+	[self load];
+
+	if (!self.favoritePhotos) {
+		self.favoritePhotos = [NSMutableArray new];
+	}
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -129,6 +136,53 @@
 {
 	PhotoCell *photoCell = (PhotoCell *)cell;
 	[photoCell setImage:nil];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+	PhotoCell *photoCell = (PhotoCell *)[collectionView cellForItemAtIndexPath:indexPath];
+	Photo *photo = (Photo *)self.searchedPhotos[indexPath.row];
+
+	if (!photo.favorited) {
+		photo.favorited = YES;
+
+		// save state
+		NSString *imageURLString = [photo.imageURL relativeString];
+		[self.favoritePhotos addObject:imageURLString];
+		[self save];
+	}
+}
+
+#pragma Persistence
+
+- (NSURL *)documentsDirectory
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSArray *directories = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+	NSLog(@"%@", directories.firstObject);
+	return directories.firstObject;
+}
+
+- (void)savePhotoToDocumentsDirectory:(Photo *)photo
+{
+//	NSString path = [NSString stringWithFormat:@"%@", photo.photoId];
+
+//	NSURL *imageURL =[[self documentsDirectory] URLByAppendingPathComponent:];
+}
+
+- (void)save
+{
+	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
+//	NSLog(@"%@", plist);
+//	NSLog(@"%@", self.favoritePhotos);
+
+	NSLog(@"%d success!",[self.favoritePhotos writeToURL:plist atomically:YES]);
+}
+
+- (void)load
+{
+	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
+	self.favoritePhotos = [NSMutableArray arrayWithContentsOfURL:plist];
 }
 
 #pragma mark - Helper methods

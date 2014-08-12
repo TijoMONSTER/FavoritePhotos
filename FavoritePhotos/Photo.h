@@ -15,6 +15,7 @@
 @property CLLocation *location;
 @property UIImage *image;
 @property NSURL *imageURL;
+@property BOOL favorited;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
