@@ -14,13 +14,16 @@
 		2C97EC7C199954E90015771B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97EC7B199954E90015771B /* main.m */; };
 		2C97EC80199954E90015771B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97EC7F199954E90015771B /* AppDelegate.m */; };
 		2C97EC83199954E90015771B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C97EC81199954E90015771B /* Main.storyboard */; };
-		2C97EC86199954E90015771B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97EC85199954E90015771B /* ViewController.m */; };
+		2C97EC86199954E90015771B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97EC85199954E90015771B /* SearchViewController.m */; };
 		2C97EC88199954E90015771B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C97EC87199954E90015771B /* Images.xcassets */; };
 		2C97EC8F199954E90015771B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97EC8E199954E90015771B /* XCTest.framework */; };
 		2C97EC90199954E90015771B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97EC6F199954E90015771B /* Foundation.framework */; };
 		2C97EC91199954E90015771B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97EC73199954E90015771B /* UIKit.framework */; };
 		2C97EC99199954E90015771B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C97EC97199954E90015771B /* InfoPlist.strings */; };
 		2C97EC9B199954E90015771B /* FavoritePhotosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97EC9A199954E90015771B /* FavoritePhotosTests.m */; };
+		2C97ECA6199962A50015771B /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C97ECA5199962A50015771B /* Photo.m */; };
+		2C97ECA8199964640015771B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C97ECA7199964640015771B /* CoreLocation.framework */; };
+		2CE5DFFB19996D4200BD4C8D /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE5DFFA19996D4200BD4C8D /* PhotoCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +48,19 @@
 		2C97EC7E199954E90015771B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2C97EC7F199954E90015771B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2C97EC82199954E90015771B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		2C97EC84199954E90015771B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2C97EC85199954E90015771B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		2C97EC84199954E90015771B /* SearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		2C97EC85199954E90015771B /* SearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		2C97EC87199954E90015771B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2C97EC8D199954E90015771B /* FavoritePhotosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FavoritePhotosTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C97EC8E199954E90015771B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		2C97EC96199954E90015771B /* FavoritePhotosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FavoritePhotosTests-Info.plist"; sourceTree = "<group>"; };
 		2C97EC98199954E90015771B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2C97EC9A199954E90015771B /* FavoritePhotosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FavoritePhotosTests.m; sourceTree = "<group>"; };
+		2C97ECA4199962A50015771B /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		2C97ECA5199962A50015771B /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		2C97ECA7199964640015771B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		2CE5DFF919996D4200BD4C8D /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		2CE5DFFA19996D4200BD4C8D /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C97ECA8199964640015771B /* CoreLocation.framework in Frameworks */,
 				2C97EC72199954E90015771B /* CoreGraphics.framework in Frameworks */,
 				2C97EC74199954E90015771B /* UIKit.framework in Frameworks */,
 				2C97EC70199954E90015771B /* Foundation.framework in Frameworks */,
@@ -101,6 +110,7 @@
 		2C97EC6E199954E90015771B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C97ECA7199964640015771B /* CoreLocation.framework */,
 				2C97EC6F199954E90015771B /* Foundation.framework */,
 				2C97EC71199954E90015771B /* CoreGraphics.framework */,
 				2C97EC73199954E90015771B /* UIKit.framework */,
@@ -112,11 +122,15 @@
 		2C97EC75199954E90015771B /* FavoritePhotos */ = {
 			isa = PBXGroup;
 			children = (
+				2C97ECA4199962A50015771B /* Photo.h */,
+				2C97ECA5199962A50015771B /* Photo.m */,
 				2C97EC7E199954E90015771B /* AppDelegate.h */,
 				2C97EC7F199954E90015771B /* AppDelegate.m */,
 				2C97EC81199954E90015771B /* Main.storyboard */,
-				2C97EC84199954E90015771B /* ViewController.h */,
-				2C97EC85199954E90015771B /* ViewController.m */,
+				2C97EC84199954E90015771B /* SearchViewController.h */,
+				2C97EC85199954E90015771B /* SearchViewController.m */,
+				2CE5DFF919996D4200BD4C8D /* PhotoCell.h */,
+				2CE5DFFA19996D4200BD4C8D /* PhotoCell.m */,
 				2C97EC87199954E90015771B /* Images.xcassets */,
 				2C97EC76199954E90015771B /* Supporting Files */,
 			);
@@ -249,7 +263,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C97EC86199954E90015771B /* ViewController.m in Sources */,
+				2CE5DFFB19996D4200BD4C8D /* PhotoCell.m in Sources */,
+				2C97ECA6199962A50015771B /* Photo.m in Sources */,
+				2C97EC86199954E90015771B /* SearchViewController.m in Sources */,
 				2C97EC80199954E90015771B /* AppDelegate.m in Sources */,
 				2C97EC7C199954E90015771B /* main.m in Sources */,
 			);
@@ -456,6 +472,7 @@
 				2C97ECA0199954E90015771B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2C97ECA1199954E90015771B /* Build configuration list for PBXNativeTarget "FavoritePhotosTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +481,7 @@
 				2C97ECA3199954E90015771B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
