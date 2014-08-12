@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIImageView *favoriteMark;
 
 @end
 
@@ -31,6 +32,11 @@
 - (void)hideActivityIndicator
 {
 	[self.activityIndicator stopAnimating];
+}
+
+- (void)setFavorite:(BOOL)favorited
+{
+	self.favoriteMark.hidden = !favorited;
 }
 
 @end

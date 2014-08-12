@@ -14,5 +14,6 @@
 - (void)setImage:(UIImage *)image;
 - (void)showActivityIndicator;
 - (void)hideActivityIndicator;
+- (void)setFavorite:(BOOL)favorited;
 
 @end

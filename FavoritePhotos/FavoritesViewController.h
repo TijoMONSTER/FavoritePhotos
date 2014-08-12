@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  FavoritesViewController.h
 //  FavoritePhotos
 //
 //  Created by Iván Mervich on 8/11/14.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchViewController : UIViewController
-
-- (NSString *)selectedFavoritePhotoURLString;
+@interface FavoritesViewController : UICollectionViewController
 
 @end

@@ -9,6 +9,7 @@
 #import "SearchViewController.h"
 #import "Photo.h"
 #import "PhotoCell.h"
+#import "FavoritesViewController.h"
 
 #define urlToGetFlickrPhotos @"https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ac464ee6ed976f4f7c0e48e3152a24ad&format=json&nojsoncallback=1&has_geo=1&per_page=10&extras=url_z,geo&tag_mode=all&tags="
 
@@ -18,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property NSMutableArray *searchedPhotos;
-@property NSMutableArray *favoritePhotos;
+//@property NSMutableArray *favoritePhotos;
 
 @end
 
@@ -29,13 +30,15 @@
     [super viewDidLoad];
 	self.searchedPhotos = [NSMutableArray new];
 
+//	if (!self.favoritePhotos) {
+//		self.favoritePhotos = [NSMutableArray new];
+//	}
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
 	self.navigationController.navigationBarHidden = YES;
-
-	[self load];
-
-	if (!self.favoritePhotos) {
-		self.favoritePhotos = [NSMutableArray new];
-	}
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -134,58 +137,19 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-	PhotoCell *photoCell = (PhotoCell *)cell;
-	[photoCell setImage:nil];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-	PhotoCell *photoCell = (PhotoCell *)[collectionView cellForItemAtIndexPath:indexPath];
-	Photo *photo = (Photo *)self.searchedPhotos[indexPath.row];
-
-	if (!photo.favorited) {
-		photo.favorited = YES;
-
-		// save state
-		NSString *imageURLString = [photo.imageURL relativeString];
-		[self.favoritePhotos addObject:imageURLString];
-		[self save];
-	}
-}
-
-#pragma Persistence
-
-- (NSURL *)documentsDirectory
-{
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSArray *directories = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
-	NSLog(@"%@", directories.firstObject);
-	return directories.firstObject;
-}
-
-- (void)savePhotoToDocumentsDirectory:(Photo *)photo
-{
-//	NSString path = [NSString stringWithFormat:@"%@", photo.photoId];
-
-//	NSURL *imageURL =[[self documentsDirectory] URLByAppendingPathComponent:];
-}
-
-- (void)save
-{
-	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
-//	NSLog(@"%@", plist);
-//	NSLog(@"%@", self.favoritePhotos);
-
-	NSLog(@"%d success!",[self.favoritePhotos writeToURL:plist atomically:YES]);
-}
-
-- (void)load
-{
-	NSURL *plist = [[self documentsDirectory] URLByAppendingPathComponent:@"favoritephotos.plist"];
-	self.favoritePhotos = [NSMutableArray arrayWithContentsOfURL:plist];
+	PhotoCell *pCell = (PhotoCell *)cell;
+	[pCell setImage:nil];
+	[pCell hideActivityIndicator];
 }
 
 #pragma mark - Helper methods
+
+- (NSString *)selectedFavoritePhotoURLString
+{
+	NSIndexPath *indexPath = self.collectionView.indexPathsForSelectedItems[0];
+	Photo *photo = self.searchedPhotos[indexPath.row];
+	return [photo.imageURL relativeString];
+}
 
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message buttonText:(NSString *)buttonText
 {
