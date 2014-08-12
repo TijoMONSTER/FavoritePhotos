@@ -22,8 +22,7 @@
 	self.location = [[CLLocation alloc]
 					 initWithLatitude:[dictionary[@"latitude"] floatValue]
 					 longitude:[dictionary[@"longitude"] floatValue]];
-	self.imageURL = [NSURL URLWithString:dictionary[@"url_c"]];
-	
+	self.imageURL = [NSURL URLWithString:dictionary[@"url_z"]];
 	return self;
 }
 

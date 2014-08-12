@@ -10,7 +10,7 @@
 #import "Photo.h"
 #import "PhotoCell.h"
 
-#define urlToGetFlickrPhotos @"https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ac464ee6ed976f4f7c0e48e3152a24ad&format=json&nojsoncallback=1&has_geo=1&per_page=10&extras=url_c,geo&tag_mode=all&tags="
+#define urlToGetFlickrPhotos @"https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=ac464ee6ed976f4f7c0e48e3152a24ad&format=json&nojsoncallback=1&has_geo=1&per_page=10&extras=url_z,geo&tag_mode=all&tags="
 
 @interface SearchViewController () <UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -66,6 +66,8 @@
 
 				[self.activityIndicator stopAnimating];
 				[self.collectionView reloadData];
+				NSIndexPath *firstItemIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+				[self.collectionView scrollToItemAtIndexPath:firstItemIndexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
 
 			} else {
 				// error decoding json
@@ -106,6 +108,11 @@
 								   }
 								   // connection error
 								   else {
+									   if ([connectionError.localizedDescription isEqualToString: @"bad URL"]) {
+										   photo.image = [UIImage imageNamed:@"photo_placeholder"];
+										   [cell setImage:photo.image];
+										   [cell hideActivityIndicator];
+									   }
 									   [self showAlertViewWithTitle:@"Connection error" message:connectionError.localizedDescription buttonText:@"OK"];
 								   }
 							   }];
